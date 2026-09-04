@@ -143,31 +143,31 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-semibold text-slate-700">PELAPOR :</label>
-            <input type="text" required class="w-full p-2 border rounded border-slate-300">
+            <input type="text" id="kerusakan-pelapor" required class="w-full p-2 border rounded border-slate-300">
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">LOKASI :</label>
-            <input type="text" required class="w-full p-2 border rounded border-slate-300">
+            <input type="text" id="kerusakan-lokasi" required class="w-full p-2 border rounded border-slate-300">
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">TANGGAL LAPORAN :</label>
-            <input type="date" required class="w-full p-2 border rounded border-slate-300">
+            <input type="date" id="kerusakan-tgl-lapor" required class="w-full p-2 border rounded border-slate-300">
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">JAM LAPORAN :</label>
-            <input type="time" required class="w-full p-2 border rounded border-slate-300">
+            <input type="time" id="kerusakan-jam-lapor" required class="w-full p-2 border rounded border-slate-300">
           </div>
           <div class="md:col-span-2">
             <label class="block text-sm font-semibold text-slate-700">NAMA ALAT :</label>
-            <input type="text" required class="w-full p-2 border rounded border-slate-300">
+            <input type="text" id="kerusakan-nama-alat" required class="w-full p-2 border rounded border-slate-300">
           </div>
           <div class="md:col-span-2">
             <label class="block text-sm font-semibold text-slate-700">INDIKASI KERUSAKAN :</label>
-            <textarea rows="3" class="w-full p-2 border rounded border-slate-300"></textarea>
+            <textarea id="kerusakan-indikasi" rows="3" class="w-full p-2 border rounded border-slate-300"></textarea>
           </div>
           <div class="md:col-span-2">
             <label class="block text-sm font-semibold text-slate-700">TINDAKAN DAN HASIL :</label>
-            <textarea rows="3" class="w-full p-2 border rounded border-slate-300"></textarea>
+            <textarea id="kerusakan-tindakan" rows="3" class="w-full p-2 border rounded border-slate-300"></textarea>
           </div>
         </div>
 
@@ -175,15 +175,15 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-semibold text-slate-700">TANGGAL SELESAI :</label>
-            <input type="date" class="w-full p-2 border rounded border-slate-300">
+            <input type="date" id="kerusakan-tgl-selesai" class="w-full p-2 border rounded border-slate-300">
           </div>
           <div>
             <label class="block text-sm font-semibold text-slate-700">JAM SELESAI :</label>
-            <input type="time" class="w-full p-2 border rounded border-slate-300">
+            <input type="time" id="kerusakan-jam-selesai" class="w-full p-2 border rounded border-slate-300">
           </div>
           <div class="md:col-span-2">
             <label class="block text-sm font-semibold text-slate-700">KESIMPULAN :</label>
-            <textarea rows="2" class="w-full p-2 border rounded border-slate-300"></textarea>
+            <textarea id="kerusakan-kesimpulan" rows="2" class="w-full p-2 border rounded border-slate-300"></textarea>
           </div>
         </div>
 
@@ -205,17 +205,28 @@
       <div class="mb-6 p-4 bg-slate-50 border rounded-lg no-print">
         <h3 class="font-bold text-slate-800 mb-3">Cari & Panggil Data Laporan Sebelumnya</h3>
         <div class="flex flex-wrap items-center gap-3">
-          <label class="text-sm font-semibold">Pilih Tanggal Laporan:</label>
-          <input type="date" id="search-tanggal" class="p-2 border rounded-md border-slate-300 focus:ring-2 focus:ring-blue-500">
-          <button onclick="cariDataSebelumnya()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition">
-            Cari Data
-          </button>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Jenis Laporan:</label>
+            <select id="search-jenis" class="p-2 border rounded-md border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm">
+              <option value="harian">Logbook Harian Teknisi</option>
+              <option value="kerusakan">Laporan Kerusakan Peralatan</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-600 mb-1">Pilih Tanggal Laporan:</label>
+            <input type="date" id="search-tanggal" class="p-2 border rounded-md border-slate-300 focus:ring-2 focus:ring-blue-500 text-sm">
+          </div>
+          <div class="self-end">
+            <button onclick="cariDataSebelumnya()" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition text-sm">
+              Cari Data
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Tempat Hasil Pencarian -->
       <div id="hasil-pencarian" class="overflow-x-auto">
-        <p class="text-slate-500 italic text-sm">Pilih tanggal di atas untuk mencari riwayat laporan logbook harian.</p>
+        <p class="text-slate-500 italic text-sm">Pilih jenis laporan dan tanggal di atas untuk mencari riwayat data.</p>
       </div>
     </div>
 
@@ -233,6 +244,8 @@
 
   <!-- 3. SCRIPT JAVASCRIPT LENGKAP -->
   <script>
+    let activeTab = 'harian';
+
     const equipmentList = [
       { type: 'header', mainNo: '1', name: 'ALAT METEOROLOGY' },
       { type: 'subheader', mainNo: '1.1', name: 'KONVENSIONAL' },
@@ -312,6 +325,7 @@
 
     // Fungsi berpindah antar Tab
     function switchTab(tab) {
+      activeTab = tab;
       const harian = document.getElementById('form-harian-container');
       const kerusakan = document.getElementById('form-kerusakan-container');
       const riwayat = document.getElementById('form-riwayat-container');
@@ -350,98 +364,178 @@
 
     // SIMPAN DATA LAPORAN KE LOCALSTORAGE
     function simpanLaporanLokal() {
-      const tanggal = document.getElementById('harian-tanggal').value;
-      if (!tanggal) {
-        alert("Pilih tanggal laporan terlebih dahulu!");
-        return;
-      }
+      if (activeTab === 'harian') {
+        const tanggal = document.getElementById('harian-tanggal').value;
+        if (!tanggal) {
+          alert("Pilih tanggal laporan harian terlebih dahulu!");
+          return;
+        }
 
-      const itemRows = equipmentList.filter(eq => eq.type === 'item');
-      let detailPeralatan = [];
+        const itemRows = equipmentList.filter(eq => eq.type === 'item');
+        let detailPeralatan = [];
 
-      itemRows.forEach((item, idx) => {
-        const pagiVal = document.querySelector(`input[name="pagi_${idx}"]:checked`)?.value || '';
-        const siangVal = document.querySelector(`input[name="siang_${idx}"]:checked`)?.value || '';
-        const ketVal = document.getElementById(`ket_${idx}`)?.value || '';
+        itemRows.forEach((item, idx) => {
+          const pagiVal = document.querySelector(`input[name="pagi_${idx}"]:checked`)?.value || '';
+          const siangVal = document.querySelector(`input[name="siang_${idx}"]:checked`)?.value || '';
+          const ketVal = document.getElementById(`ket_${idx}`)?.value || '';
 
-        detailPeralatan.push({
-          nama: item.name,
-          brand: item.brand,
-          pagi: pagiVal,
-          siang: siangVal,
-          keterangan: ketVal
+          detailPeralatan.push({
+            nama: item.name,
+            brand: item.brand,
+            pagi: pagiVal,
+            siang: siangVal,
+            keterangan: ketVal
+          });
         });
-      });
 
-      const payload = {
-        tanggal: tanggal,
-        catatan: document.getElementById('harian-catatan').value,
-        teknisiPS: document.getElementById('harian-ps').value,
-        teknisiTS: document.getElementById('harian-ts').value,
-        kasie: document.getElementById('harian-kasie').value,
-        detailPeralatan: detailPeralatan,
-        waktuSimpan: new Date().toLocaleString('id-ID')
-      };
+        const payload = {
+          tanggal: tanggal,
+          catatan: document.getElementById('harian-catatan').value,
+          teknisiPS: document.getElementById('harian-ps').value,
+          teknisiTS: document.getElementById('harian-ts').value,
+          kasie: document.getElementById('harian-kasie').value,
+          detailPeralatan: detailPeralatan,
+          waktuSimpan: new Date().toLocaleString('id-ID')
+        };
 
-      let database = JSON.parse(localStorage.getItem('logbook_db') || '[]');
-      database = database.filter(item => item.tanggal !== tanggal);
-      database.push(payload);
-      localStorage.setItem('logbook_db', JSON.stringify(database));
+        let database = JSON.parse(localStorage.getItem('logbook_db') || '[]');
+        database = database.filter(item => item.tanggal !== tanggal);
+        database.push(payload);
+        localStorage.setItem('logbook_db', JSON.stringify(database));
 
-      alert(`Laporan tanggal ${tanggal} berhasil disimpan/diperbarui!`);
+        alert(`Logbook Harian tanggal ${tanggal} berhasil disimpan/diperbarui!`);
+
+      } else if (activeTab === 'kerusakan') {
+        const tglLapor = document.getElementById('kerusakan-tgl-lapor').value;
+        if (!tglLapor) {
+          alert("Isi tanggal laporan kerusakan terlebih dahulu!");
+          return;
+        }
+
+        const payload = {
+          pelapor: document.getElementById('kerusakan-pelapor').value,
+          lokasi: document.getElementById('kerusakan-lokasi').value,
+          tglLapor: tglLapor,
+          jamLapor: document.getElementById('kerusakan-jam-lapor').value,
+          namaAlat: document.getElementById('kerusakan-nama-alat').value,
+          indikasi: document.getElementById('kerusakan-indikasi').value,
+          tindakan: document.getElementById('kerusakan-tindakan').value,
+          tglSelesai: document.getElementById('kerusakan-tgl-selesai').value,
+          jamSelesai: document.getElementById('kerusakan-jam-selesai').value,
+          kesimpulan: document.getElementById('kerusakan-kesimpulan').value,
+          teknisiOnDuty: document.getElementById('kerusakan-onduty').value,
+          waktuSimpan: new Date().toLocaleString('id-ID')
+        };
+
+        let dbKerusakan = JSON.parse(localStorage.getItem('kerusakan_db') || '[]');
+        // Hapus jika ada data pada tanggal & nama alat yang sama untuk update
+        dbKerusakan = dbKerusakan.filter(item => !(item.tglLapor === tglLapor && item.namaAlat === payload.namaAlat));
+        dbKerusakan.push(payload);
+        localStorage.setItem('kerusakan_db', JSON.stringify(dbKerusakan));
+
+        alert(`Laporan Kerusakan Peralatan (${payload.namaAlat}) tanggal ${tglLapor} berhasil disimpan/diperbarui!`);
+      } else {
+        alert("Pilih tab Logbook Harian atau Laporan Kerusakan sebelum menyimpan.");
+      }
     }
 
     // CARI DATA DARI LOCALSTORAGE
     function cariDataSebelumnya() {
+      const jenis = document.getElementById('search-jenis').value;
       const tgl = document.getElementById('search-tanggal').value;
+
       if (!tgl) {
         alert("Pilih tanggal terlebih dahulu!");
         return;
       }
 
-      const database = JSON.parse(localStorage.getItem('logbook_db') || '[]');
-      const dataDitemukan = database.filter(item => item.tanggal === tgl);
-
       const container = document.getElementById('hasil-pencarian');
-      
-      if (dataDitemukan.length === 0) {
-        container.innerHTML = `<p class="text-red-500 font-semibold p-4 bg-red-50 rounded border border-red-200">Tidak ada data terdaftar untuk tanggal ${tgl}.</p>`;
-        return;
-      }
 
-      let html = `
-        <table class="w-full text-xs text-left border-collapse border border-slate-300 mb-4">
-          <thead>
-            <tr class="bg-slate-100">
-              <th class="border p-2">Tanggal Laporan</th>
-              <th class="border p-2">Teknisi PS / TS</th>
-              <th class="border p-2">Waktu Terakhir Disimpan</th>
-              <th class="border p-2 text-center">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
+      if (jenis === 'harian') {
+        const database = JSON.parse(localStorage.getItem('logbook_db') || '[]');
+        const dataDitemukan = database.filter(item => item.tanggal === tgl);
 
-      dataDitemukan.forEach((data) => {
-        html += `
-          <tr class="hover:bg-slate-50">
-            <td class="border p-2 font-bold">${data.tanggal}</td>
-            <td class="border p-2">${data.teknisiPS || '-'} / ${data.teknisiTS || '-'}</td>
-            <td class="border p-2 text-slate-500">${data.waktuSimpan}</td>
-            <td class="border p-2 text-center">
-              <button onclick="panggilKeFormulir('${data.tanggal}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1 rounded text-xs transition">
-                Panggil & Edit / Akumulasi
-              </button>
-            </td>
-          </tr>
+        if (dataDitemukan.length === 0) {
+          container.innerHTML = `<p class="text-red-500 font-semibold p-4 bg-red-50 rounded border border-red-200">Tidak ada riwayat Logbook Harian untuk tanggal ${tgl}.</p>`;
+          return;
+        }
+
+        let html = `
+          <table class="w-full text-xs text-left border-collapse border border-slate-300 mb-4">
+            <thead>
+              <tr class="bg-slate-100">
+                <th class="border p-2">Tanggal Laporan</th>
+                <th class="border p-2">Teknisi PS / TS</th>
+                <th class="border p-2">Waktu Terakhir Disimpan</th>
+                <th class="border p-2 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
         `;
-      });
 
-      html += `</tbody></table>`;
-      container.innerHTML = html;
+        dataDitemukan.forEach((data) => {
+          html += `
+            <tr class="hover:bg-slate-50">
+              <td class="border p-2 font-bold">${data.tanggal}</td>
+              <td class="border p-2">${data.teknisiPS || '-'} / ${data.teknisiTS || '-'}</td>
+              <td class="border p-2 text-slate-500">${data.waktuSimpan}</td>
+              <td class="border p-2 text-center">
+                <button onclick="panggilKeFormulir('${data.tanggal}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1 rounded text-xs transition">
+                  Panggil & Edit / Akumulasi
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += `</tbody></table>`;
+        container.innerHTML = html;
+
+      } else if (jenis === 'kerusakan') {
+        const dbKerusakan = JSON.parse(localStorage.getItem('kerusakan_db') || '[]');
+        const dataDitemukan = dbKerusakan.filter(item => item.tglLapor === tgl);
+
+        if (dataDitemukan.length === 0) {
+          container.innerHTML = `<p class="text-red-500 font-semibold p-4 bg-red-50 rounded border border-red-200">Tidak ada riwayat Laporan Kerusakan untuk tanggal ${tgl}.</p>`;
+          return;
+        }
+
+        let html = `
+          <table class="w-full text-xs text-left border-collapse border border-slate-300 mb-4">
+            <thead>
+              <tr class="bg-slate-100">
+                <th class="border p-2">Tgl Lapor</th>
+                <th class="border p-2">Nama Alat</th>
+                <th class="border p-2">Pelapor / Lokasi</th>
+                <th class="border p-2">Teknisi On Duty</th>
+                <th class="border p-2 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        dataDitemukan.forEach((data, index) => {
+          html += `
+            <tr class="hover:bg-slate-50">
+              <td class="border p-2 font-bold">${data.tglLapor} ${data.jamLapor ? '(' + data.jamLapor + ')' : ''}</td>
+              <td class="border p-2 font-semibold text-blue-700">${data.namaAlat || '-'}</td>
+              <td class="border p-2">${data.pelapor || '-'} / ${data.lokasi || '-'}</td>
+              <td class="border p-2">${data.teknisiOnDuty || '-'}</td>
+              <td class="border p-2 text-center">
+                <button onclick="panggilKerusakanKeFormulir('${data.tglLapor}', '${data.namaAlat}')" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3 py-1 rounded text-xs transition">
+                  Panggil & Edit / Akumulasi
+                </button>
+              </td>
+            </tr>
+          `;
+        });
+
+        html += `</tbody></table>`;
+        container.innerHTML = html;
+      }
     }
 
-    // MEMANGGIL DATA KEMBALI KE FORMULIR LOGBOOK HARIAN
+    // MEMANGGIL DATA LOGBOOK HARIAN
     function panggilKeFormulir(tanggal) {
       const database = JSON.parse(localStorage.getItem('logbook_db') || '[]');
       const data = database.find(item => item.tanggal === tanggal);
@@ -469,7 +563,31 @@
         if (ketInput) ketInput.value = item.keterangan || '';
       });
 
-      alert(`Data tanggal ${data.tanggal} berhasil dipanggil ke dalam formulir. Anda dapat mengedit dan menekan 'Simpan Laporan' untuk menyimpan ulang!`);
+      alert(`Logbook Harian tanggal ${data.tanggal} berhasil dipanggil ke dalam formulir!`);
+    }
+
+    // MEMANGGIL DATA LAPORAN KERUSAKAN PERALATAN
+    function panggilKerusakanKeFormulir(tglLapor, namaAlat) {
+      const dbKerusakan = JSON.parse(localStorage.getItem('kerusakan_db') || '[]');
+      const data = dbKerusakan.find(item => item.tglLapor === tglLapor && item.namaAlat === namaAlat);
+
+      if (!data) return;
+
+      switchTab('kerusakan');
+
+      document.getElementById('kerusakan-pelapor').value = data.pelapor || '';
+      document.getElementById('kerusakan-lokasi').value = data.lokasi || '';
+      document.getElementById('kerusakan-tgl-lapor').value = data.tglLapor || '';
+      document.getElementById('kerusakan-jam-lapor').value = data.jamLapor || '';
+      document.getElementById('kerusakan-nama-alat').value = data.namaAlat || '';
+      document.getElementById('kerusakan-indikasi').value = data.indikasi || '';
+      document.getElementById('kerusakan-tindakan').value = data.tindakan || '';
+      document.getElementById('kerusakan-tgl-selesai').value = data.tglSelesai || '';
+      document.getElementById('kerusakan-jam-selesai').value = data.jamSelesai || '';
+      document.getElementById('kerusakan-kesimpulan').value = data.kesimpulan || '';
+      document.getElementById('kerusakan-onduty').value = data.teknisiOnDuty || '';
+
+      alert(`Laporan Kerusakan Peralatan (${data.namaAlat}) tanggal ${data.tglLapor} berhasil dipanggil ke dalam formulir!`);
     }
 
     document.addEventListener('DOMContentLoaded', renderTable);
