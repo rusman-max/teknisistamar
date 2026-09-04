@@ -8,8 +8,8 @@
   <style>
     @media print {
       .no-print { display: none !important; }
-      body { background: white; font-size: 12pt; }
-      .print-card { border: none !important; shadow: none !important; padding: 0 !important; }
+      body { background: white; font-size: 11pt; }
+      .print-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
     }
   </style>
 </head>
@@ -36,52 +36,37 @@
     <!-- FORM 1: LOGBOOK HARIAN TEKNISI -->
     <div id="form-harian-container">
       <form id="form-harian">
-        <div class="mb-4">
-          <label class="block text-sm font-bold text-slate-700 mb-1">TANGGAL :</label>
-          <input type="date" required class="w-full md:w-64 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 border-slate-300">
+        <div class="mb-4 flex items-center gap-3">
+          <label class="block text-sm font-bold text-slate-700">TANGGAL :</label>
+          <input type="date" required class="p-2 border rounded-md focus:ring-2 focus:ring-blue-500 border-slate-300">
         </div>
 
         <p class="font-bold text-slate-800 mb-2 border-b pb-1">PENGECEKAN HARIAN PERALATAN OPERASIONAL</p>
         <div class="overflow-x-auto mb-6">
-          <table class="w-full text-sm text-left border-collapse border border-slate-300" id="table-alat">
-            <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
+          <table class="w-full text-xs text-left border-collapse border border-slate-300">
+            <thead class="bg-slate-100 text-slate-700 uppercase font-bold">
               <tr>
                 <th rowspan="2" class="border border-slate-300 p-2 text-center w-12">NO</th>
                 <th rowspan="2" class="border border-slate-300 p-2">NAMA PERALATAN</th>
-                <th rowspan="2" class="border border-slate-300 p-2">MEREK / TYPE</th>
-                <th colspan="3" class="border border-slate-300 p-2 text-center bg-blue-50">KONDISI PAGI</th>
-                <th colspan="3" class="border border-slate-300 p-2 text-center bg-amber-50">KONDISI SIANG</th>
+                <th rowspan="2" class="border border-slate-300 p-2 w-36">MEREK / TYPE</th>
+                <th colspan="3" class="border border-slate-300 p-1 text-center bg-blue-50">KONDISI PAGI</th>
+                <th colspan="3" class="border border-slate-300 p-1 text-center bg-amber-50">KONDISI SIANG</th>
                 <th rowspan="2" class="border border-slate-300 p-2">KETERANGAN</th>
-                <th rowspan="2" class="border border-slate-300 p-2 text-center no-print">AKSI</th>
               </tr>
               <tr class="text-center text-[10px]">
-                <th class="border border-slate-300 p-1 bg-blue-50">B</th>
-                <th class="border border-slate-300 p-1 bg-blue-50">RR</th>
-                <th class="border border-slate-300 p-1 bg-blue-50">RB</th>
-                <th class="border border-slate-300 p-1 bg-amber-50">B</th>
-                <th class="border border-slate-300 p-1 bg-amber-50">RR</th>
-                <th class="border border-slate-300 p-1 bg-amber-50">RB</th>
+                <th class="border border-slate-300 p-1 bg-blue-50 w-8">B</th>
+                <th class="border border-slate-300 p-1 bg-blue-50 w-8">RR</th>
+                <th class="border border-slate-300 p-1 bg-blue-50 w-8">RB</th>
+                <th class="border border-slate-300 p-1 bg-amber-50 w-8">B</th>
+                <th class="border border-slate-300 p-1 bg-amber-50 w-8">RR</th>
+                <th class="border border-slate-300 p-1 bg-amber-50 w-8">RB</th>
               </tr>
             </thead>
             <tbody id="tbody-alat">
-              <!-- Row Default -->
-              <tr>
-                <td class="border border-slate-300 p-2 text-center">1</td>
-                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Nama Alat"></td>
-                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Merek/Tipe"></td>
-                <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_0" value="B"></td>
-                <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_0" value="RR"></td>
-                <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_0" value="RB"></td>
-                <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_0" value="B"></td>
-                <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_0" value="RR"></td>
-                <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_0" value="RB"></td>
-                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Ket."></td>
-                <td class="border border-slate-300 p-1 text-center no-print"><button type="button" onclick="removeRow(this)" class="text-red-500 font-bold px-2">X</button></td>
-              </tr>
+              <!-- Rendered dynamically by JavaScript -->
             </tbody>
           </table>
-          <button type="button" onclick="addTableRow()" class="mt-2 text-xs bg-slate-200 hover:bg-slate-300 px-3 py-1 rounded no-print">+ Tambah Baris Peralatan</button>
-          <div class="text-[11px] text-slate-500 mt-1">* Keterangan Kondisi: B = Baik, RR = Rusak Ringan, RB = Rusak Berat</div>
+          <div class="text-[11px] text-slate-500 mt-2">* Keterangan Kondisi: B = Baik, RR = Rusak Ringan, RB = Rusak Berat</div>
         </div>
 
         <div class="mb-6">
@@ -169,7 +154,7 @@
       <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
         Cetak / Simpan PDF
       </button>
-      <button onclick="alert('Formulir berhasil disimpan secara lokal di browser!');" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
+      <button onclick="alert('Formulir berhasil disimpan!');" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
         Simpan Laporan
       </button>
     </div>
@@ -177,6 +162,85 @@
   </div>
 
   <script>
+    // Data peralatan terstruktur
+    const equipmentList = [
+      { type: 'header', mainNo: '1', name: 'ALAT METEOROLOGY' },
+      { type: 'subheader', mainNo: '1.1', name: 'KONVENSIONAL' },
+      { type: 'item', name: 'Thermometer Min.', brand: 'Thermo' },
+      { type: 'item', name: 'Thermometer BB', brand: 'Thermo' },
+      { type: 'item', name: 'Thermometer BK', brand: 'Thermo' },
+      { type: 'item', name: 'Penakar Hujan Obs', brand: 'Lokal' },
+      { type: 'item', name: 'Penakar Hujan Otomatis', brand: 'Hellman' },
+      { type: 'item', name: 'Evaporimeter', brand: 'Lokal' },
+      { type: 'item', name: 'Sunshine Recorder', brand: 'Camble Stokes' },
+      { type: 'item', name: 'Barograph', brand: '' },
+      { type: 'item', name: 'Cup Counter Anemometer 0,5m', brand: '' },
+      { type: 'item', name: 'Cup Counter Anemometer 2m', brand: '' },
+      { type: 'item', name: 'Theodolite', brand: 'Warren Knight' },
+      { type: 'subheader', mainNo: '1.2', name: 'DIGITAL' },
+      { type: 'item', name: 'AWS Digitalisasi Serang', brand: 'Vaisala' },
+      { type: 'item', name: 'AWS Maritim Merak', brand: '' },
+      { type: 'item', name: 'AWS Maritim Ciwandan', brand: '' },
+      { type: 'item', name: 'Anemometer', brand: 'RM Young' },
+      { type: 'item', name: 'Barometer Digital', brand: 'Vaisala' },
+      { type: 'item', name: 'Thermometer Digital', brand: 'RM Young' },
+      
+      { type: 'header', mainNo: '2', name: 'ALAT KLIMATOLOGI' },
+      { type: 'item', name: 'Termometer Tanah', brand: '' },
+      { type: 'item', name: 'HV Air Sampler', brand: 'TISCH' },
+      { type: 'item', name: 'ARWS', brand: 'TISCH' },
+      
+      { type: 'header', mainNo: '3', name: 'DISPLAY INFORMASI' },
+      { type: 'item', name: 'Display Publik Provinsi Banten', brand: 'Intel NUC' },
+      { type: 'item', name: 'Display Publik Pelabuhan Merak', brand: 'Intel NUC' },
+      { type: 'item', name: 'Display Maritim PPN Karangantu', brand: 'Intel NUC' },
+      
+      { type: 'header', mainNo: '4', name: 'JARINGAN' },
+      { type: 'item', name: 'Jaringan Internet', brand: 'Astinet' },
+      { type: 'item', name: 'Web Stasiun', brand: '' }
+    ];
+
+    function renderTable() {
+      const tbody = document.getElementById('tbody-alat');
+      tbody.innerHTML = '';
+
+      let radioIdx = 0;
+
+      equipmentList.forEach((eq) => {
+        const tr = document.createElement('tr');
+
+        if (eq.type === 'header') {
+          tr.className = 'bg-slate-200 font-bold text-slate-800';
+          tr.innerHTML = `
+            <td class="border border-slate-300 p-1.5 text-center">${eq.mainNo}</td>
+            <td class="border border-slate-300 p-1.5" colspan="9">${eq.name}</td>
+          `;
+        } else if (eq.type === 'subheader') {
+          tr.className = 'bg-slate-100 font-semibold text-slate-700';
+          tr.innerHTML = `
+            <td class="border border-slate-300 p-1 text-center">${eq.mainNo}</td>
+            <td class="border border-slate-300 p-1 pl-4" colspan="9">${eq.name}</td>
+          `;
+        } else {
+          tr.className = 'hover:bg-slate-50';
+          tr.innerHTML = `
+            <td class="border border-slate-300 p-1"></td>
+            <td class="border border-slate-300 p-1 pl-6 font-medium">${eq.name}</td>
+            <td class="border border-slate-300 p-1 text-slate-600">${eq.brand}</td>
+            <td class="border border-slate-300 p-1 text-center bg-blue-50/20"><input type="radio" name="pagi_${radioIdx}" value="B"></td>
+            <td class="border border-slate-300 p-1 text-center bg-blue-50/20"><input type="radio" name="pagi_${radioIdx}" value="RR"></td>
+            <td class="border border-slate-300 p-1 text-center bg-blue-50/20"><input type="radio" name="pagi_${radioIdx}" value="RB"></td>
+            <td class="border border-slate-300 p-1 text-center bg-amber-50/20"><input type="radio" name="siang_${radioIdx}" value="B"></td>
+            <td class="border border-slate-300 p-1 text-center bg-amber-50/20"><input type="radio" name="siang_${radioIdx}" value="RR"></td>
+            <td class="border border-slate-300 p-1 text-center bg-amber-50/20"><input type="radio" name="siang_${radioIdx}" value="RB"></td>
+            <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 text-xs border rounded border-slate-200 focus:outline-none focus:border-blue-400" placeholder="Keterangan"></td>
+          `;
+          radioIdx++;
+        }
+        tbody.appendChild(tr);
+      });
+    }
+
     function switchTab(tab) {
       const harian = document.getElementById('form-harian-container');
       const kerusakan = document.getElementById('form-kerusakan-container');
@@ -199,36 +263,8 @@
       }
     }
 
-    function addTableRow() {
-      const tbody = document.getElementById('tbody-alat');
-      const rowCount = tbody.children.length;
-      const index = rowCount;
-      const row = document.createElement('tr');
-      row.innerHTML = `
-        <td class="border border-slate-300 p-2 text-center">${index + 1}</td>
-        <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Nama Alat"></td>
-        <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Merek/Tipe"></td>
-        <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_${index}" value="B"></td>
-        <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_${index}" value="RR"></td>
-        <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_${index}" value="RB"></td>
-        <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_${index}" value="B"></td>
-        <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_${index}" value="RR"></td>
-        <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_${index}" value="RB"></td>
-        <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Ket."></td>
-        <td class="border border-slate-300 p-1 text-center no-print"><button type="button" onclick="removeRow(this)" class="text-red-500 font-bold px-2">X</button></td>
-      `;
-      tbody.appendChild(row);
-    }
-
-    function removeRow(btn) {
-      const row = btn.closest('tr');
-      row.remove();
-      // Re-index row numbers
-      const tbody = document.getElementById('tbody-alat');
-      Array.from(tbody.children).forEach((tr, idx) => {
-        tr.children[0].innerText = idx + 1;
-      });
-    }
+    // Inisialisasi Tabel saat halaman dimuat
+    document.addEventListener('DOMContentLoaded', renderTable);
   </script>
 </body>
 </html>
