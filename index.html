@@ -258,7 +258,6 @@
 
   <!-- 3. SCRIPT JAVASCRIPT LENGKAP -->
   <script>
-    // PASTE URL APPS SCRIPT ANDA DI BAWAH INI
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzI0ZCgOUUixgipnpy9jeuD_axR50wBARLsbuehgLVWaYKfgYXB4Xu8QBkkBXk_RgLG8A/exec";
 
     let activeTab = 'harian';
@@ -388,11 +387,6 @@
 
     // SIMPAN DATA KE GOOGLE SHEETS CLOUD
     async function simpanLaporanCloud() {
-      if (SCRIPT_URL === "https://script.google.com/macros/s/AKfycbzI0ZCgOUUixgipnpy9jeuD_axR50wBARLsbuehgLVWaYKfgYXB4Xu8QBkkBXk_RgLG8A/exec") {
-        alert("Data belum sinkron!");
-        return;
-      }
-
       const btnSimpan = document.getElementById('btn-simpan-laporan');
       btnSimpan.disabled = true;
       btnSimpan.innerText = "Menyimpan ke Cloud...";
@@ -466,11 +460,11 @@
         await fetch(SCRIPT_URL, {
           method: 'POST',
           mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload)
         });
 
-        alert("Berhasil! Data telah tersimpan,TERIMAKASIH.");
+        alert("Berhasil! Data telah tersimpan di Cloud. TERIMA KASIH.");
 
       } catch (err) {
         alert("Gagal menyimpan data ke cloud: " + err.message);
@@ -482,11 +476,6 @@
 
     // CARI DATA DARI CLOUD GOOGLE SHEETS
     async function cariDataSebelumnya() {
-      if (SCRIPT_URL === "https://script.google.com/macros/s/AKfycbzI0ZCgOUUixgipnpy9jeuD_axR50wBARLsbuehgLVWaYKfgYXB4Xu8QBkkBXk_RgLG8A/exec") {
-        alert("Harap masukkan URL Google Apps Script Anda pada variabel SCRIPT_URL!");
-        return;
-      }
-
       const jenis = document.getElementById('search-jenis').value;
       const tgl = document.getElementById('search-tanggal').value;
 
