@@ -1,10 +1,23 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Logbook Teknisi - Stasiun Meteorologi Maritim Kelas I Merak</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Header Instansi -->
+    <div class="flex items-center justify-between border-b-2 border-slate-800 pb-4 mb-6">
+      <!-- Logo BMKG Kiri -->
+      <div class="w-16 md:w-20 flex-shrink-0">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/79/BMKG_Logo.svg" alt="Logo BMKG" class="w-full h-auto object-contain">
+      </div>
+
+      <!-- Teks Judul Tengah -->
+      <div class="text-center flex-grow px-2">
+        <h2 class="text-xs md:text-sm font-bold uppercase tracking-wider text-slate-600">BADAN METEOROLOGI, KLIMATOLOGI, DAN GEOFISIKA</h2>
+        <h3 class="text-xs font-semibold uppercase tracking-wider text-slate-500">STASIUN METEOROLOGI MARITIM KELAS I MERAK</h3>
+        <h1 id="form-title" class="text-lg md:text-2xl font-bold text-slate-900 mt-2 border-t border-slate-200 pt-1">LOGBOOK HARIAN TEKNISI</h1>
+      </div>
+
+      <!-- Spacer Kanan (Agar Teks Judul Tetap Presisi Di Tengah) -->
+      <div class="w-16 md:w-20 flex-shrink-0 hidden sm:block"></div>
+    </div>
   <style>
     @media print {
       .no-print { display: none !important; }
