@@ -8,8 +8,31 @@
   <style>
     @media print {
       .no-print { display: none !important; }
-      body { background: white; font-size: 11pt; }
-      .print-card { border: none !important; box-shadow: none !important; padding: 0 !important; }
+      body { background: white; font-size: 10pt; }
+      .print-card { border: none !important; box-shadow: none !important; padding: 0 !important; max-width: 100% !important; }
+      
+      /* Format tampilan dropdown saat dicetak agar rapi dalam 1 baris */
+      select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border: none !important;
+        background: transparent !important;
+        text-align-last: center;
+        font-weight: bold;
+        padding: 0 !important;
+      }
+      .signature-grid {
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: flex-start !important;
+        page-break-inside: avoid;
+      }
+      .signature-col {
+        width: 32% !important;
+        text-align: center !important;
+      }
     }
   </style>
 </head>
@@ -23,7 +46,7 @@
       <h1 id="form-title" class="text-xl md:text-2xl font-bold text-slate-900 mt-1">LOGBOOK HARIAN TEKNISI</h1>
     </div>
 
-    <!-- 1. TOMBOL TAB NAVIGASI (DITAMBAHKAN TAB KETIGA) -->
+    <!-- 1. TOMBOL TAB NAVIGASI -->
     <div class="flex border-b border-slate-200 mb-6 no-print space-x-2 overflow-x-auto">
       <button onclick="switchTab('harian')" id="tab-harian" class="py-2 px-4 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none transition whitespace-nowrap">
         Logbook Harian Teknisi
@@ -74,21 +97,40 @@
 
         <div class="mb-6">
           <label class="block font-bold text-slate-800 mb-1 border-b pb-1">LAPORAN KEGIATAN HARIAN TEKNISI (Catatan):</label>
-          <textarea id="harian-catatan" rows="4" class="w-full p-2 border rounded-md border-slate-300" placeholder="Tuliskan catatan atau laporan kegiatan harian..."></textarea>
+          <textarea id="harian-catatan" rows="3" class="w-full p-2 border rounded-md border-slate-300" placeholder="Tuliskan catatan atau laporan kegiatan harian..."></textarea>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center border-t pt-4">
-          <div>
+        <!-- TANDA TANGAN SATU BARIS -->
+        <div class="signature-grid flex flex-row justify-between items-start border-t pt-4 text-center">
+          <div class="signature-col w-1/3 px-2">
             <p class="font-bold text-sm mb-12">Teknisi PS</p>
-            <input type="text" id="harian-ps" class="border-b border-slate-400 text-center w-full focus:outline-none" placeholder="( Nama Teknisi PS )">
+            <select id="harian-ps" class="w-full text-center border-b border-slate-400 pb-1 bg-transparent text-xs font-semibold focus:outline-none cursor-pointer">
+              <option value="">-- Pilih Teknisi --</option>
+              <option value="TATANG RUSMANA S.Tr.Met, M.T">TATANG RUSMANA S.Tr.Met, M.T</option>
+              <option value="ZONA KELANA, S.Tr">ZONA KELANA, S.Tr</option>
+              <option value="HERU PRASTIYO S.Tr">HERU PRASTIYO S.Tr</option>
+              <option value="FAKHRI FAWWAZ AL-AUFA S.Tr.Inst.">FAKHRI FAWWAZ AL-AUFA S.Tr.Inst.</option>
+            </select>
           </div>
-          <div>
+          <div class="signature-col w-1/3 px-2">
             <p class="font-bold text-sm mb-12">Teknisi TS</p>
-            <input type="text" id="harian-ts" class="border-b border-slate-400 text-center w-full focus:outline-none" placeholder="( Nama Teknisi TS )">
+            <select id="harian-ts" class="w-full text-center border-b border-slate-400 pb-1 bg-transparent text-xs font-semibold focus:outline-none cursor-pointer">
+              <option value="">-- Pilih Teknisi --</option>
+              <option value="TATANG RUSMANA S.Tr.Met, M.T">TATANG RUSMANA S.Tr.Met, M.T</option>
+              <option value="ZONA KELANA, S.Tr">ZONA KELANA, S.Tr</option>
+              <option value="HERU PRASTIYO S.Tr">HERU PRASTIYO S.Tr</option>
+              <option value="FAKHRI FAWWAZ AL-AUFA S.Tr.Inst.">FAKHRI FAWWAZ AL-AUFA S.Tr.Inst.</option>
+            </select>
           </div>
-          <div>
+          <div class="signature-col w-1/3 px-2">
             <p class="font-bold text-sm mb-12">Mengetahui,<br>Ketua Seksi Teknisi</p>
-            <input type="text" id="harian-kasie" class="border-b border-slate-400 text-center w-full focus:outline-none" placeholder="( Nama Ketua Seksi )">
+            <select id="harian-kasie" class="w-full text-center border-b border-slate-400 pb-1 bg-transparent text-xs font-semibold focus:outline-none cursor-pointer">
+              <option value="">-- Pilih Nama --</option>
+              <option value="TATANG RUSMANA S.Tr.Met, M.T">TATANG RUSMANA S.Tr.Met, M.T</option>
+              <option value="ZONA KELANA, S.Tr">ZONA KELANA, S.Tr</option>
+              <option value="HERU PRASTIYO S.Tr">HERU PRASTIYO S.Tr</option>
+              <option value="FAKHRI FAWWAZ AL-AUFA S.Tr.Inst.">FAKHRI FAWWAZ AL-AUFA S.Tr.Inst.</option>
+            </select>
           </div>
         </div>
       </form>
@@ -147,7 +189,13 @@
 
         <div class="pt-6 text-right max-w-xs ml-auto">
           <p class="font-bold text-sm mb-12 text-center">TEKNISI ON DUTY</p>
-          <input type="text" class="border-b border-slate-400 text-center w-full focus:outline-none" placeholder="( Nama Teknisi On Duty )">
+          <select id="kerusakan-onduty" class="w-full text-center border-b border-slate-400 pb-1 bg-transparent text-xs font-semibold focus:outline-none cursor-pointer">
+            <option value="">-- Pilih Teknisi --</option>
+            <option value="TATANG RUSMANA S.Tr.Met, M.T">TATANG RUSMANA S.Tr.Met, M.T</option>
+            <option value="ZONA KELANA, S.Tr">ZONA KELANA, S.Tr</option>
+            <option value="HERU PRASTIYO S.Tr">HERU PRASTIYO S.Tr</option>
+            <option value="FAKHRI FAWWAZ AL-AUFA S.Tr.Inst.">FAKHRI FAWWAZ AL-AUFA S.Tr.Inst.</option>
+          </select>
         </div>
       </form>
     </div>
@@ -274,12 +322,10 @@
       
       const title = document.getElementById('form-title');
 
-      // Sembunyikan semua container terlebih dahulu
       harian.classList.add('hidden');
       kerusakan.classList.add('hidden');
       riwayat.classList.add('hidden');
 
-      // Reset style tombol tab
       const inactiveStyle = "py-2 px-4 font-semibold text-slate-500 border-b-2 border-transparent hover:text-blue-600 focus:outline-none transition whitespace-nowrap";
       const activeStyle = "py-2 px-4 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none transition whitespace-nowrap";
 
@@ -298,11 +344,11 @@
       } else if (tab === 'riwayat') {
         riwayat.classList.remove('hidden');
         tabRiwayat.className = activeStyle;
-        title.innerText = "RIWAYAT & PANGGILA DATA LOGBOOK";
+        title.innerText = "RIWAYAT & PANGGIL DATA LOGBOOK";
       }
     }
 
-    // SIMPAN DATA LAPORAN KE BROWSER (LOCALSTORAGE)
+    // SIMPAN DATA LAPORAN KE LOCALSTORAGE
     function simpanLaporanLokal() {
       const tanggal = document.getElementById('harian-tanggal').value;
       if (!tanggal) {
@@ -338,11 +384,7 @@
       };
 
       let database = JSON.parse(localStorage.getItem('logbook_db') || '[]');
-      
-      // Hapus data lama pada tanggal yang sama jika ada (untuk replace/update)
       database = database.filter(item => item.tanggal !== tanggal);
-      
-      // Tambahkan data baru
       database.push(payload);
       localStorage.setItem('logbook_db', JSON.stringify(database));
 
@@ -406,17 +448,14 @@
 
       if (!data) return;
 
-      // 1. Pindah kembali ke Tab Harian
       switchTab('harian');
 
-      // 2. Isi data utama
       document.getElementById('harian-tanggal').value = data.tanggal;
       document.getElementById('harian-catatan').value = data.catatan || '';
       document.getElementById('harian-ps').value = data.teknisiPS || '';
       document.getElementById('harian-ts').value = data.teknisiTS || '';
       document.getElementById('harian-kasie').value = data.kasie || '';
 
-      // 3. Isi kondisi masing-masing peralatan
       data.detailPeralatan.forEach((item, idx) => {
         if (item.pagi) {
           const radioPagi = document.querySelector(`input[name="pagi_${idx}"][value="${item.pagi}"]`);
@@ -433,7 +472,6 @@
       alert(`Data tanggal ${data.tanggal} berhasil dipanggil ke dalam formulir. Anda dapat mengedit dan menekan 'Simpan Laporan' untuk menyimpan ulang!`);
     }
 
-    // Inisialisasi awal
     document.addEventListener('DOMContentLoaded', renderTable);
   </script>
 </body>
