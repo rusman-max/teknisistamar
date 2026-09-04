@@ -1,1 +1,234 @@
-Hello World
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logbook Teknisi - Stasiun Meteorologi Maritim Kelas I Merak</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white; font-size: 12pt; }
+      .print-card { border: none !important; shadow: none !important; padding: 0 !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen p-4 md:p-8">
+
+  <div class="max-w-5xl mx-auto bg-white rounded-xl shadow-md p-6 md:p-8 print-card">
+    
+    <!-- Header Instansi -->
+    <div class="text-center border-b-2 border-slate-800 pb-4 mb-6">
+      <h2 class="text-xs font-bold uppercase tracking-wider text-slate-500">BMKG - Stasiun Meteorologi Maritim Kelas I Merak</h2>
+      <h1 id="form-title" class="text-xl md:text-2xl font-bold text-slate-900 mt-1">LOGBOOK HARIAN TEKNISI</h1>
+    </div>
+
+    <!-- Tab Navigasi -->
+    <div class="flex border-b border-slate-200 mb-6 no-print space-x-2">
+      <button onclick="switchTab('harian')" id="tab-harian" class="py-2 px-4 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none transition">
+        Logbook Harian Teknisi
+      </button>
+      <button onclick="switchTab('kerusakan')" id="tab-kerusakan" class="py-2 px-4 font-semibold text-slate-500 border-b-2 border-transparent hover:text-blue-600 focus:outline-none transition">
+        Laporan Kerusakan Peralatan
+      </button>
+    </div>
+
+    <!-- FORM 1: LOGBOOK HARIAN TEKNISI -->
+    <div id="form-harian-container">
+      <form id="form-harian">
+        <div class="mb-4">
+          <label class="block text-sm font-bold text-slate-700 mb-1">TANGGAL :</label>
+          <input type="date" required class="w-full md:w-64 p-2 border rounded-md focus:ring-2 focus:ring-blue-500 border-slate-300">
+        </div>
+
+        <p class="font-bold text-slate-800 mb-2 border-b pb-1">PENGECEKAN HARIAN PERALATAN OPERASIONAL</p>
+        <div class="overflow-x-auto mb-6">
+          <table class="w-full text-sm text-left border-collapse border border-slate-300" id="table-alat">
+            <thead class="bg-slate-100 text-slate-700 uppercase text-xs">
+              <tr>
+                <th rowspan="2" class="border border-slate-300 p-2 text-center w-12">NO</th>
+                <th rowspan="2" class="border border-slate-300 p-2">NAMA PERALATAN</th>
+                <th rowspan="2" class="border border-slate-300 p-2">MEREK / TYPE</th>
+                <th colspan="3" class="border border-slate-300 p-2 text-center bg-blue-50">KONDISI PAGI</th>
+                <th colspan="3" class="border border-slate-300 p-2 text-center bg-amber-50">KONDISI SIANG</th>
+                <th rowspan="2" class="border border-slate-300 p-2">KETERANGAN</th>
+                <th rowspan="2" class="border border-slate-300 p-2 text-center no-print">AKSI</th>
+              </tr>
+              <tr class="text-center text-[10px]">
+                <th class="border border-slate-300 p-1 bg-blue-50">B</th>
+                <th class="border border-slate-300 p-1 bg-blue-50">RR</th>
+                <th class="border border-slate-300 p-1 bg-blue-50">RB</th>
+                <th class="border border-slate-300 p-1 bg-amber-50">B</th>
+                <th class="border border-slate-300 p-1 bg-amber-50">RR</th>
+                <th class="border border-slate-300 p-1 bg-amber-50">RB</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-alat">
+              <!-- Row Default -->
+              <tr>
+                <td class="border border-slate-300 p-2 text-center">1</td>
+                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Nama Alat"></td>
+                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Merek/Tipe"></td>
+                <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_0" value="B"></td>
+                <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_0" value="RR"></td>
+                <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_0" value="RB"></td>
+                <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_0" value="B"></td>
+                <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_0" value="RR"></td>
+                <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_0" value="RB"></td>
+                <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Ket."></td>
+                <td class="border border-slate-300 p-1 text-center no-print"><button type="button" onclick="removeRow(this)" class="text-red-500 font-bold px-2">X</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <button type="button" onclick="addTableRow()" class="mt-2 text-xs bg-slate-200 hover:bg-slate-300 px-3 py-1 rounded no-print">+ Tambah Baris Peralatan</button>
+          <div class="text-[11px] text-slate-500 mt-1">* Keterangan Kondisi: B = Baik, RR = Rusak Ringan, RB = Rusak Berat</div>
+        </div>
+
+        <div class="mb-6">
+          <label class="block font-bold text-slate-800 mb-1 border-b pb-1">LAPORAN KEGIATAN HARIAN TEKNISI (Catatan):</label>
+          <textarea rows="4" class="w-full p-2 border rounded-md border-slate-300" placeholder="Tuliskan catatan atau laporan kegiatan harian..."></textarea>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center border-t pt-4">
+          <div>
+            <p class="font-bold text-sm mb-12">Teknisi PS</p>
+            <input type="text" class="border-b border-slate-400 text-center w-full focus:outline-none" placeholder="( Nama Teknisi PS )">
+          </div>
+          <div>
+            <p class="font-bold text-sm mb-12">Teknisi TS</p>
+            <input type="text" class="border-b border-slate-400 text-center w-full focus:outline-none" placeholder="( Nama Teknisi TS )">
+          </div>
+          <div>
+            <p class="font-bold text-sm mb-12">Mengetahui,<br>Ketua Seksi Teknisi</p>
+            <input type="text" class="border-b border-slate-400 text-center w-full focus:outline-none" placeholder="( Nama Ketua Seksi )">
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- FORM 2: LAPORAN KERUSAKAN PERALATAN -->
+    <div id="form-kerusakan-container" class="hidden">
+      <form id="form-kerusakan" class="space-y-4">
+        <p class="font-bold text-slate-800 border-b pb-1">1. LAPORAN KERUSAKAN</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">PELAPOR :</label>
+            <input type="text" required class="w-full p-2 border rounded border-slate-300">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">LOKASI :</label>
+            <input type="text" required class="w-full p-2 border rounded border-slate-300">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">TANGGAL LAPORAN :</label>
+            <input type="date" required class="w-full p-2 border rounded border-slate-300">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">JAM LAPORAN :</label>
+            <input type="time" required class="w-full p-2 border rounded border-slate-300">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-slate-700">NAMA ALAT :</label>
+            <input type="text" required class="w-full p-2 border rounded border-slate-300">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-slate-700">INDIKASI KERUSAKAN :</label>
+            <textarea rows="3" class="w-full p-2 border rounded border-slate-300"></textarea>
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-slate-700">TINDAKAN DAN HASIL :</label>
+            <textarea rows="3" class="w-full p-2 border rounded border-slate-300"></textarea>
+          </div>
+        </div>
+
+        <p class="font-bold text-slate-800 border-b pb-1 pt-4">2. SELESAI PERBAIKAN</p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">TANGGAL SELESAI :</label>
+            <input type="date" class="w-full p-2 border rounded border-slate-300">
+          </div>
+          <div>
+            <label class="block text-sm font-semibold text-slate-700">JAM SELESAI :</label>
+            <input type="time" class="w-full p-2 border rounded border-slate-300">
+          </div>
+          <div class="md:col-span-2">
+            <label class="block text-sm font-semibold text-slate-700">KESIMPULAN :</label>
+            <textarea rows="2" class="w-full p-2 border rounded border-slate-300"></textarea>
+          </div>
+        </div>
+
+        <div class="pt-6 text-right max-w-xs ml-auto">
+          <p class="font-bold text-sm mb-12 text-center">TEKNISI ON DUTY</p>
+          <input type="text" class="border-b border-slate-400 text-center w-full focus:outline-none" placeholder="( Nama Teknisi On Duty )">
+        </div>
+      </form>
+    </div>
+
+    <!-- Tombol Aksi -->
+    <div class="mt-8 border-t pt-4 flex flex-wrap justify-end gap-3 no-print">
+      <button onclick="window.print()" class="bg-slate-800 hover:bg-slate-900 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
+        Cetak / Simpan PDF
+      </button>
+      <button onclick="alert('Formulir berhasil disimpan secara lokal di browser!');" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-5 py-2 rounded-lg shadow transition">
+        Simpan Laporan
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      const harian = document.getElementById('form-harian-container');
+      const kerusakan = document.getElementById('form-kerusakan-container');
+      const tabHarian = document.getElementById('tab-harian');
+      const tabKerusakan = document.getElementById('tab-kerusakan');
+      const title = document.getElementById('form-title');
+
+      if (tab === 'harian') {
+        harian.classList.remove('hidden');
+        kerusakan.classList.add('hidden');
+        tabHarian.className = "py-2 px-4 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none transition";
+        tabKerusakan.className = "py-2 px-4 font-semibold text-slate-500 border-b-2 border-transparent hover:text-blue-600 focus:outline-none transition";
+        title.innerText = "LOGBOOK HARIAN TEKNISI";
+      } else {
+        kerusakan.classList.remove('hidden');
+        harian.classList.add('hidden');
+        tabKerusakan.className = "py-2 px-4 font-semibold border-b-2 border-blue-600 text-blue-600 focus:outline-none transition";
+        tabHarian.className = "py-2 px-4 font-semibold text-slate-500 border-b-2 border-transparent hover:text-blue-600 focus:outline-none transition";
+        title.innerText = "FORM LAPORAN KERUSAKAN PERALATAN";
+      }
+    }
+
+    function addTableRow() {
+      const tbody = document.getElementById('tbody-alat');
+      const rowCount = tbody.children.length;
+      const index = rowCount;
+      const row = document.createElement('tr');
+      row.innerHTML = `
+        <td class="border border-slate-300 p-2 text-center">${index + 1}</td>
+        <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Nama Alat"></td>
+        <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Merek/Tipe"></td>
+        <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_${index}" value="B"></td>
+        <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_${index}" value="RR"></td>
+        <td class="border border-slate-300 p-1 text-center bg-blue-50/30"><input type="radio" name="pagi_${index}" value="RB"></td>
+        <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_${index}" value="B"></td>
+        <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_${index}" value="RR"></td>
+        <td class="border border-slate-300 p-1 text-center bg-amber-50/30"><input type="radio" name="siang_${index}" value="RB"></td>
+        <td class="border border-slate-300 p-1"><input type="text" class="w-full p-1 border rounded" placeholder="Ket."></td>
+        <td class="border border-slate-300 p-1 text-center no-print"><button type="button" onclick="removeRow(this)" class="text-red-500 font-bold px-2">X</button></td>
+      `;
+      tbody.appendChild(row);
+    }
+
+    function removeRow(btn) {
+      const row = btn.closest('tr');
+      row.remove();
+      // Re-index row numbers
+      const tbody = document.getElementById('tbody-alat');
+      Array.from(tbody.children).forEach((tr, idx) => {
+        tr.children[0].innerText = idx + 1;
+      });
+    }
+  </script>
+</body>
+</html>
